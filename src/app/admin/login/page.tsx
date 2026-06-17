@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, Landmark, ShieldCheck, Users, BarChart2, Lightbulb, Sparkles } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -60,18 +60,18 @@ export default function LoginPage() {
           </p>
           <div className="mt-10 grid grid-cols-3 gap-3 max-w-sm mx-auto">
             {[
-              { label: 'Gobierno', icon: '🏛️' },
-              { label: 'Calidad', icon: '✅' },
-              { label: 'Cultura', icon: '🧠' },
-              { label: 'Analítica', icon: '📊' },
-              { label: 'Innovación', icon: '🚀' },
-              { label: 'IA', icon: '✨' },
-            ].map(({ label, icon }) => (
+              { label: 'Gobierno', Icon: Landmark },
+              { label: 'Calidad', Icon: ShieldCheck },
+              { label: 'Cultura', Icon: Users },
+              { label: 'Analítica', Icon: BarChart2 },
+              { label: 'Innovación', Icon: Lightbulb },
+              { label: 'IA', Icon: Sparkles },
+            ].map(({ label, Icon }) => (
               <div
                 key={label}
                 className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-3 py-3 text-center hover:bg-white/15 transition-colors"
               >
-                <span className="text-lg block mb-1">{icon}</span>
+                <Icon className="w-5 h-5 text-white/90 mx-auto mb-1.5" />
                 <span className="text-white text-xs font-semibold tracking-wide">{label}</span>
               </div>
             ))}
