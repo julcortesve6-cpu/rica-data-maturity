@@ -39,8 +39,17 @@ export default function LoginPage() {
         </div>
         <div className="relative z-10 text-center">
           <div className="mb-8 flex justify-center">
-            <div className="w-40 h-40 bg-white rounded-3xl flex items-center justify-center shadow-xl overflow-hidden">
-              <Image src="/logo-rica.jpeg" alt="Rica" width={160} height={160} className="object-contain" />
+            <div className="relative">
+              {/* Anillo exterior animado */}
+              <div className="absolute -inset-4 rounded-full border border-white/20 animate-ping" style={{ animationDuration: '3s' }} />
+              <div className="absolute -inset-2 rounded-full border border-white/30" />
+              {/* Contenedor logo con glass effect */}
+              <div className="relative w-36 h-36 rounded-full bg-white/10 backdrop-blur-md border border-white/30 shadow-2xl flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                  <Image src="/logo-rica.jpeg" alt="Rica" width={96} height={96} className="object-contain" />
+                </div>
+              </div>
             </div>
           </div>
           <h1 className="text-white text-3xl font-bold mb-4 leading-tight">
@@ -74,11 +83,17 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-8 bg-gray-50">
         <div className="w-full max-w-md">
           {/* Logo móvil */}
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow overflow-hidden border border-gray-100">
-              <Image src="/logo-rica.jpeg" alt="Rica" width={40} height={40} className="object-contain" />
+          <div className="lg:hidden flex items-center gap-3 mb-8">
+            <div className="relative w-12 h-12">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#003087] to-[#E31837] opacity-20 blur-sm" />
+              <div className="relative w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md overflow-hidden border border-gray-100">
+                <Image src="/logo-rica.jpeg" alt="Rica" width={48} height={48} className="object-contain" />
+              </div>
             </div>
-            <span className="text-[#003087] font-bold text-xl">Rica</span>
+            <div>
+              <span className="text-[#003087] font-bold text-xl block leading-none">Rica</span>
+              <span className="text-gray-400 text-xs">Madurez de Datos</span>
+            </div>
           </div>
 
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
