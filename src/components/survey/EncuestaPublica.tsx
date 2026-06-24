@@ -518,7 +518,7 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
             <div className="flex items-end gap-3">
               {/* byTI junto al botón */}
               <div
-                className="shrink-0 w-16 h-20 pointer-events-none select-none"
+                className="shrink-0 w-28 h-36 pointer-events-none select-none"
                 style={{
                   maskImage: 'radial-gradient(ellipse 62% 75% at 50% 44%, black 32%, rgba(0,0,0,0.8) 52%, transparent 72%)',
                   WebkitMaskImage: 'radial-gradient(ellipse 62% 75% at 50% 44%, black 32%, rgba(0,0,0,0.8) 52%, transparent 72%)',
@@ -528,8 +528,8 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
                 <Image
                   src="/byti.jpeg"
                   alt="byTI"
-                  width={64}
-                  height={80}
+                  width={112}
+                  height={144}
                   className="object-contain w-full h-full"
                 />
               </div>
