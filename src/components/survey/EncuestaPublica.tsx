@@ -340,6 +340,7 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       className="min-h-screen relative overflow-x-hidden flex flex-col items-center justify-center px-4 pt-16 pb-36"
       style={{ background: 'linear-gradient(135deg, #001440 0%, #002070 60%, #001a4d 100%)' }}
     >
+      <ByTIBot mensaje="¡Hola! Soy byTI 👋 Ingresa tu nombre y código de empleado para comenzar. Tus respuestas son completamente confidenciales." />
       {/* Cuadrícula de puntos decorativa — superior derecha */}
       <div
         className="absolute top-0 right-0 w-72 h-72 opacity-20 pointer-events-none"
@@ -375,14 +376,6 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
 
       {/* Contenedor de la tarjeta con robots posicionados */}
       <div className="relative w-full max-w-lg z-10">
-
-        {/* byTI con laptop — esquina inferior izquierda */}
-        <div className="absolute -bottom-16 -left-4 md:-left-12 w-36 md:w-44 z-20 pointer-events-none select-none"
-          style={{ filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5))' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/byti-laptop.png" alt="byTI" style={{ width: '100%', height: 'auto', display: 'block' }} />
-        </div>
 
         {/* SofIA — superpuesta esquina superior derecha, mirando hacia la encuesta */}
         <div
@@ -546,27 +539,32 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
   )
 }
 
-const MENSAJES_BYTI = [
-  "¡Hola! Soy byTI 👋 Responde según tu experiencia real del día a día. No hay respuestas buenas ni malas.",
-  "¡Vas muy bien! Cada respuesta ayuda a entender cómo se gestionan los datos en toda la organización.",
-  "Cuando selecciones C o D, te pediremos una breve explicación. ¡Es la información más valiosa del diagnóstico!",
-  "¡Excelente avance! Un diagnóstico honesto genera mejoras reales. Sigue así.",
+const MENSAJES_ENCUESTA = [
+  "¡Comencemos! Responde según tu experiencia real del día a día. No hay respuestas buenas ni malas.",
+  "¡Vas muy bien! Cada respuesta ayuda a entender cómo gestionamos los datos en la organización.",
+  "Si seleccionas C o D, te pediremos una breve explicación. ¡Es la información más valiosa del diagnóstico!",
+  "¡Excelente avance! Un diagnóstico honesto genera mejoras reales. Sigue así 💪",
   "¡Último tramo! Tus aportes son clave para que Grupo Rica siga creciendo en madurez de datos 🚀",
 ]
 
-function ByTIBot({ seccionActual, totalSecciones }: { seccionActual: number; totalSecciones: number }) {
+function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
+  mensaje?: string
+  seccionActual?: number
+  totalSecciones?: number
+}) {
   const [visible, setVisible] = useState(true)
   const [animKey, setAnimKey] = useState(0)
 
   const idx = Math.min(
-    Math.round((seccionActual / Math.max(totalSecciones - 1, 1)) * (MENSAJES_BYTI.length - 1)),
-    MENSAJES_BYTI.length - 1
+    Math.round((seccionActual / Math.max(totalSecciones - 1, 1)) * (MENSAJES_ENCUESTA.length - 1)),
+    MENSAJES_ENCUESTA.length - 1
   )
+  const texto = mensaje ?? MENSAJES_ENCUESTA[idx]
 
   useEffect(() => {
     setVisible(true)
     setAnimKey(k => k + 1)
-  }, [seccionActual])
+  }, [seccionActual, mensaje])
 
   return (
     <div
@@ -603,7 +601,7 @@ function ByTIBot({ seccionActual, totalSecciones }: { seccionActual: number; tot
             <X style={{ width: 14, height: 14 }} />
           </button>
           <p style={{ fontSize: 12, color: '#374151', lineHeight: 1.6, paddingRight: 16, margin: 0 }}>
-            {MENSAJES_BYTI[idx]}
+            {texto}
           </p>
           {/* Flecha */}
           <div style={{
@@ -629,9 +627,9 @@ function ByTIBot({ seccionActual, totalSecciones }: { seccionActual: number; tot
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/byti.png"
+          src="/byti-laptop.png"
           alt="byTI"
-          style={{ width: 80, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
+          style={{ width: 88, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
         />
       </button>
 
