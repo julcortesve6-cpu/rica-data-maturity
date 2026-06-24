@@ -622,14 +622,24 @@ function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
       {/* byTI */}
       <button
         onClick={() => setVisible(v => !v)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        style={{
+          background: '#fff',
+          border: '2px solid #e8eef8',
+          borderRadius: 20,
+          cursor: 'pointer',
+          padding: '6px 10px 0 10px',
+          boxShadow: '0 4px 20px rgba(0,48,135,0.18)',
+          display: 'flex',
+          alignItems: 'flex-end',
+          overflow: 'hidden',
+        }}
         title="byTI"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/byti-laptop.png"
           alt="byTI"
-          style={{ width: 120, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
+          style={{ width: 110, height: 'auto', display: 'block' }}
         />
       </button>
 
