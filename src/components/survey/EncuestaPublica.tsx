@@ -492,21 +492,16 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       {/* Contenedor de la tarjeta con robots posicionados */}
       <div className="relative w-full max-w-lg z-10">
 
-        {/* SofIA — superpuesta esquina superior derecha, mirando hacia la encuesta */}
+        {/* SofIA — superpuesta esquina superior derecha */}
         <div
-          className="absolute -top-24 -right-4 md:-right-12 w-44 md:w-60 z-20 pointer-events-none select-none"
-          style={{
-            maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
-            filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5)) drop-shadow(0 0 8px rgba(100,160,255,0.15))',
-            transform: 'scaleX(-1)',
-          }}
+          className="absolute -top-28 -right-4 md:-right-10 w-44 md:w-56 z-20 pointer-events-none select-none"
+          style={{ filter: 'drop-shadow(0 8px 28px rgba(0,20,80,0.35))' }}
         >
           <Image
-            src="/sofia.jpeg"
+            src="/sofia-wave.png"
             alt="SofIA"
             width={240}
-            height={240}
+            height={260}
             className="object-contain w-full h-full"
           />
         </div>
