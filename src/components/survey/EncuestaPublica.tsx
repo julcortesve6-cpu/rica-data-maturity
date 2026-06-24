@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useEffect } from 'react'
+import { useState, useTransition, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { guardarRespuestas, verificarRespuesta } from '@/app/actions/respuestas'
 import { toast } from 'sonner'
@@ -31,6 +31,18 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
   const [isPending, startTransition] = useTransition()
   const [errores, setErrores] = useState<Record<string, string>>({})
   const [reaccionBot, setReaccionBot] = useState<string | null>(null)
+  const colaReacciones = useRef<string[]>([])
+  const idxReaccion = useRef(0)
+
+  useEffect(() => {
+    const shuffled = [...REACCIONES_RESPUESTA]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+    colaReacciones.current = shuffled
+    idxReaccion.current = 0
+  }, [])
 
   const seccion = secciones[seccionActual]
   const totalSecciones = secciones.length
@@ -44,7 +56,16 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
     if (errores[preguntaId]) {
       setErrores(prev => { const n = { ...prev }; delete n[preguntaId]; return n })
     }
-    const r = REACCIONES_RESPUESTA[Math.floor(Math.random() * REACCIONES_RESPUESTA.length)]
+    if (idxReaccion.current >= colaReacciones.current.length) {
+      const reshuffled = [...REACCIONES_RESPUESTA]
+      for (let i = reshuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [reshuffled[i], reshuffled[j]] = [reshuffled[j], reshuffled[i]]
+      }
+      colaReacciones.current = reshuffled
+      idxReaccion.current = 0
+    }
+    const r = colaReacciones.current[idxReaccion.current++]
     setReaccionBot(r + '_' + Date.now())
   }
 
@@ -623,36 +644,61 @@ const MENSAJES_ENCUESTA = [
 ]
 
 const REACCIONES_RESPUESTA = [
+  // ── Lote 1 — cultura de datos y honestidad ──
   "¡Dato capturado! Los diagnósticos honestos valen más que mil dashboards bonitos 📊",
-  "¡Registrado! Cada respuesta es un KPI que va directo al tablero de Grupo Rica ⚡",
-  "¡Anotado! La diferencia entre datos e información eres exactamente tú: tu perspectiva 🧠",
-  "¡Capturado! Incluso los pipelines más avanzados empezaron con una primera respuesta 🚀",
-  "¡Guardado! Un dashboard sin datos honestos no es un dashboard, es decoración 🎨",
-  "¡Sumado al análisis! La madurez de datos es un viaje y acabas de dar un paso más 🗺️",
   "¡Recibido! Si los datos mienten, el negocio tropieza. Tú nos diste la verdad 🙏",
-  "¡Al data lake! El que importa... el del diagnóstico real, no el del servidor olvidado 🌊",
-  "¡Perfecto! Aquí no hay respuestas malas, solo oportunidades de mejora con nombre y apellido 💡",
+  "¡Guardado! Un dashboard sin datos honestos no es un dashboard, es decoración 🎨",
+  "¡Listo! Sin filtros, sin maquillaje, con datos reales. Así se hace 💯",
+  "¡Anotado! La diferencia entre datos e información eres exactamente tú: tu perspectiva 🧠",
+  "¡Guardado! Los mejores insights vienen de la realidad, no del wishful thinking 🔍",
+  "¡Capturado! Cada respuesta cierra una brecha... aunque sea chiquita. Las brechas chiquitas importan 🔧",
+  "¡Dato recibido! La madurez no se decreta, se diagnostica. Así como tú lo estás haciendo 🔬",
+  "¡Perfecto! Cuando todos respondan así, el análisis de IA va a tener material de calidad 🏆",
   "¡Registrado! La calidad de un diagnóstico es proporcional a la honestidad de sus respuestas 📏",
-  "¡Listo! Más valioso que un report en tiempo real: un diagnóstico que diga la verdad ✨",
+  // ── Lote 2 — jerga técnica con humor ──
+  "¡Al data lake! El que importa... el del diagnóstico real, no el del servidor olvidado 🌊",
   "¡Guardado! Si el gobierno de datos fuera tan sencillo como responder esto... 😄",
+  "¡Registrado! Cada respuesta es un KPI que va directo al tablero de Grupo Rica ⚡",
+  "¡Al repositorio! Tu respuesta pasó todos los controles de calidad... incluso los manuales 🏅",
+  "¡Listo! Más valioso que un report en tiempo real: un diagnóstico que diga la verdad ✨",
+  "¡Anotado! Dato ingresado, validado y libre de duplicados. Como debería ser siempre 🧹",
+  "¡Capturado! Si esto fuera un pipeline, acabas de pasar la validación de calidad con éxito ✅",
+  "¡Registrado! Aquí no hay nulls ni valores vacíos. Respuesta completa, diagnóstico feliz 🎉",
+  "¡Guardado! Esto va al análisis. No al archivo compartido que nadie abre 📂✨",
+  "¡Sumado! Un solo dato bien tomado vale más que un lago lleno de basura 💎",
+  // ── Lote 3 — avance por módulos ──
   "¡Avanzamos! Cada sección que completas es un nivel de madurez que se revela 🎯",
+  "¡Capturado! Spoiler: el próximo módulo tiene preguntas igual de interesantes 😉",
+  "¡Sumado al análisis! La madurez de datos es un viaje y acabas de dar un paso más 🗺️",
+  "¡Registrado! Cuando este diagnóstico cierre, Grupo Rica tendrá su mapa del tesoro 🗺️✨",
+  "¡Avanzamos! ¿Ves? La analítica no duele cuando tú eres el dato 😊",
+  "¡Listo! Las decisiones data-driven empiezan exactamente así: con alguien que responde con verdad 🎯",
+  "¡Registrado! Oficialmente más informado que el 80% de los servidores que nadie monitorea 📡",
+  "¡Capturado! Incluso los pipelines más avanzados empezaron con una primera respuesta 🚀",
+  "¡Guardado! Si este fuera un sprint de datos, acabas de cerrar una historia de usuario con éxito 🏃",
+  "¡Perfecto! El pipeline sigue fluyendo. Tú eres la fuente y estás funcionando perfecto 🌊⚡",
+  // ── Lote 4 — impacto real y cultura ──
+  "¡Perfecto! Aquí no hay respuestas malas, solo oportunidades de mejora con nombre y apellido 💡",
   "¡Anotado! Los datos sin contexto son ruido. Tus respuestas son música 🎵",
   "¡Capturado! Algún día un dashboard hermoso mostrará el impacto de este momento 📈",
   "¡Sumado! No existe IA que mejore sin datos de calidad... y acabas de aportar los tuyos 🤖",
-  "¡Dato recibido! La madurez no se decreta, se diagnostica. Así como tú lo estás haciendo 🔬",
-  "¡Registrado! Cuando este diagnóstico cierre, Grupo Rica tendrá su mapa del tesoro 🗺️✨",
-  "¡Listo! Sin filtros, sin maquillaje, con datos reales. Así se hace 💯",
-  "¡Guardado! Los mejores insights vienen de la realidad, no del wishful thinking 🔍",
-  "¡Capturado! Cada respuesta cierra una brecha... aunque sea chiquita. Las brechas chiquitas importan 🔧",
   "¡Anotado! En Grupo Rica los datos se tratan con cariño... como acabas de hacer tú 💙",
   "¡Registrado! Esto es gobernanza en acción: registrar, documentar y nunca olvidar 📋",
   "¡Sumado! Los KPIs empiezan aquí: con alguien que se tomó el tiempo de responder con honestidad ⏱️",
-  "¡Capturado! Spoiler: el próximo módulo tiene preguntas igual de interesantes 😉",
-  "¡Al repositorio! Tu respuesta pasó todos los controles de calidad... incluso los manuales 🏅",
-  "¡Avanzamos! ¿Ves? La analítica no duele cuando tú eres el dato 😊",
   "¡Dato anotado! Cada respuesta es una semilla en el jardín de la cultura de datos 🌱",
   "¡Guardado! Medir es poder. Y tú acabas de sumarle poder al diagnóstico de Rica 💪",
-  "¡Perfecto! Cuando todos respondan así, el análisis de IA va a tener material de calidad 🏆",
+  "¡Registrado! El modelo de IA que analizará esto agradece profundamente tu honestidad 🤝",
+  // ── Lote 5 — guiños de analista con humor ──
+  "¡Anotado! Esto es lo que los consultores llaman 'dato primario de calidad'. Sin pagar consultoría 😄",
+  "¡Capturado! No todos los héroes usan capa. Algunos responden encuestas de madurez de datos 🦸",
+  "¡Perfecto! Si cada área respondiera así, los comités de datos serían reuniones cortas 🙌",
+  "¡Registrado! En algún lugar, un analista acaba de sonreír sin saber por qué 😊",
+  "¡Guardado! La diferencia entre un dato y un insight eres tú, que lo viviste en el día a día 🌟",
+  "¡Capturado! Este dato no va a dormir en un Excel olvidado. Va a transformar algo real 💥",
+  "¡Anotado! Respuesta que no está en el sistema no existe. Esta ya existe y cuenta 📌",
+  "¡Registrado! Datos como estos son los que hacen que los reportes ejecutivos valgan la pena leer 📑",
+  "¡Guardado! En el mundo de los datos, el que no mide no mejora... y tú acabas de medir 📐",
+  "¡Dato guardado! Esto es exactamente lo que separa una empresa que usa datos de una que los acumula 🗂️",
 ]
 
 function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1, reaccion }: {
