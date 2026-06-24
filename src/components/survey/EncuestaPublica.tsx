@@ -519,7 +519,11 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
               {/* byTI junto al botón */}
               <div
                 className="shrink-0 w-28 h-36 pointer-events-none select-none"
-                style={{ filter: 'drop-shadow(0 6px 16px rgba(0,48,135,0.18))' }}
+                style={{
+                  maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
+                  filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5)) drop-shadow(0 0 8px rgba(100,160,255,0.15))',
+                }}
               >
                 <Image
                   src="/byti.png"
