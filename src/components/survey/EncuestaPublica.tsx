@@ -522,7 +522,7 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
                 style={{ filter: 'drop-shadow(0 6px 16px rgba(0,48,135,0.18))' }}
               >
                 <Image
-                  src="/byti.jpeg"
+                  src="/byti.png"
                   alt="byTI"
                   width={112}
                   height={144}
