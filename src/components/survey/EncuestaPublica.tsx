@@ -561,41 +561,78 @@ function ByTIBot({ seccionActual, totalSecciones }: { seccionActual: number; tot
   }, [seccionActual])
 
   return (
-    <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-2" style={{ maxWidth: 260 }}>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 20,
+        right: 16,
+        zIndex: 9999,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        gap: 8,
+        maxWidth: 260,
+      }}
+    >
       {/* Burbuja de mensaje */}
       {visible && (
         <div
           key={animKey}
-          className="bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3 relative animate-in fade-in slide-in-from-bottom-3 duration-300"
+          style={{
+            background: '#fff',
+            borderRadius: 16,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            border: '1px solid #f0f0f0',
+            padding: '12px 16px',
+            position: 'relative',
+            animation: 'bytiIn 0.3s ease-out',
+          }}
         >
           <button
             onClick={() => setVisible(false)}
-            className="absolute top-2 right-2 text-gray-300 hover:text-gray-500 transition-colors"
+            style={{ position: 'absolute', top: 8, right: 8, color: '#ccc', background: 'none', border: 'none', cursor: 'pointer', lineHeight: 1 }}
           >
-            <X className="w-3.5 h-3.5" />
+            <X style={{ width: 14, height: 14 }} />
           </button>
-          <p className="text-xs text-gray-700 leading-relaxed pr-4">
+          <p style={{ fontSize: 12, color: '#374151', lineHeight: 1.6, paddingRight: 16, margin: 0 }}>
             {MENSAJES_BYTI[idx]}
           </p>
-          {/* Flecha hacia byTI */}
-          <div className="absolute -bottom-[7px] right-9 w-3.5 h-3.5 bg-white border-b border-r border-gray-100 rotate-45" />
+          {/* Flecha */}
+          <div style={{
+            position: 'absolute',
+            bottom: -7,
+            right: 36,
+            width: 14,
+            height: 14,
+            background: '#fff',
+            border: '1px solid #f0f0f0',
+            borderTop: 'none',
+            borderLeft: 'none',
+            transform: 'rotate(45deg)',
+          }} />
         </div>
       )}
 
-      {/* byTI — clic para mostrar/ocultar burbuja */}
+      {/* byTI */}
       <button
         onClick={() => setVisible(v => !v)}
-        className="shrink-0 hover:scale-110 active:scale-95 transition-transform duration-150"
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
         title="byTI"
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/byti.png"
           alt="byTI"
-          width={72}
-          height={90}
-          className="object-contain drop-shadow-lg"
+          style={{ width: 80, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
         />
       </button>
+
+      <style>{`
+        @keyframes bytiIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   )
 }
