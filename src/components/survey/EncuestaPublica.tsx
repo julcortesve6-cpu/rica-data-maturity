@@ -30,6 +30,7 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
   const [respuestas, setRespuestas] = useState<Record<string, RespuestaDetalle>>({})
   const [isPending, startTransition] = useTransition()
   const [errores, setErrores] = useState<Record<string, string>>({})
+  const [reaccionBot, setReaccionBot] = useState<string | null>(null)
 
   const seccion = secciones[seccionActual]
   const totalSecciones = secciones.length
@@ -43,6 +44,8 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
     if (errores[preguntaId]) {
       setErrores(prev => { const n = { ...prev }; delete n[preguntaId]; return n })
     }
+    const r = REACCIONES_RESPUESTA[Math.floor(Math.random() * REACCIONES_RESPUESTA.length)]
+    setReaccionBot(r + '_' + Date.now())
   }
 
   function handleJustificacion(preguntaId: string, texto: string) {
@@ -134,7 +137,7 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
 
   return (
     <div className="min-h-screen bg-[#f0f4f8] pb-24">
-      <ByTIBot seccionActual={seccionActual} totalSecciones={totalSecciones} />
+      <ByTIBot seccionActual={seccionActual} totalSecciones={totalSecciones} reaccion={reaccionBot} />
 
       {/* ── Header sticky ── */}
       <header className="bg-white border-b-4 border-[#003087] sticky top-0 z-40 shadow-sm">
@@ -366,17 +369,23 @@ function PreguntaItem({ pregunta, index, respuesta, error, onChange, onJustifica
 
         {/* Justificación condicional */}
         {pideJustificacion && (
-          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-            <p className="text-xs font-semibold text-amber-700 mb-2">
-              Por favor, explica brevemente: ¿por qué seleccionaste esta opción? *
-            </p>
-            <textarea
-              value={respuesta?.texto_justificacion ?? ''}
-              onChange={e => onJustificacion(pregunta.id, e.target.value)}
-              rows={2}
-              placeholder="Escribe tu justificación..."
-              className="w-full px-3 py-2 text-sm bg-white border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 resize-none transition-all"
-            />
+          <div className="mt-4 rounded-2xl overflow-hidden border border-amber-200 shadow-sm">
+            <div className="bg-gradient-to-r from-amber-500 to-orange-400 px-4 py-3 flex items-center gap-2">
+              <span className="text-lg">💬</span>
+              <div>
+                <p className="text-white font-bold text-sm leading-tight">Cuéntanos un poco más</p>
+                <p className="text-amber-100 text-xs leading-tight">Tu explicación es la información más valiosa del diagnóstico</p>
+              </div>
+            </div>
+            <div className="bg-amber-50 p-4">
+              <textarea
+                value={respuesta?.texto_justificacion ?? ''}
+                onChange={e => onJustificacion(pregunta.id, e.target.value)}
+                rows={3}
+                placeholder="¿Qué situación específica refleja esta respuesta? Describe brevemente..."
+                className="w-full px-4 py-3 text-sm bg-white border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 resize-none transition-all placeholder:text-gray-300"
+              />
+            </div>
           </div>
         )}
 
@@ -613,24 +622,44 @@ const MENSAJES_ENCUESTA = [
   "¡Último tramo! Tus aportes son clave para que Grupo Rica siga creciendo en madurez de datos 🚀",
 ]
 
-function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
+const REACCIONES_RESPUESTA = [
+  "¡Perfecto! Así se construye un diagnóstico real 👏",
+  "¡Genial! Tu honestidad hace la diferencia 🌟",
+  "¡Muy bien! Cada respuesta suma al análisis 📊",
+  "¡Excelente elección! Seguimos avanzando 🚀",
+  "¡Gracias! Tu perspectiva es muy valiosa 💡",
+  "¡Eso es! Estás ayudando a mejorar Grupo Rica 💪",
+  "¡Buena respuesta! Vas a un ritmo increíble ⚡",
+  "¡Listo! Un paso más hacia el diagnóstico completo ✅",
+]
+
+function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1, reaccion }: {
   mensaje?: string
   seccionActual?: number
   totalSecciones?: number
+  reaccion?: string | null
 }) {
   const [visible, setVisible] = useState(true)
   const [animKey, setAnimKey] = useState(0)
+  const [textoActual, setTextoActual] = useState('')
 
   const idx = Math.min(
     Math.round((seccionActual / Math.max(totalSecciones - 1, 1)) * (MENSAJES_ENCUESTA.length - 1)),
     MENSAJES_ENCUESTA.length - 1
   )
-  const texto = mensaje ?? MENSAJES_ENCUESTA[idx]
 
   useEffect(() => {
+    setTextoActual(mensaje ?? MENSAJES_ENCUESTA[idx])
     setVisible(true)
     setAnimKey(k => k + 1)
   }, [seccionActual, mensaje])
+
+  useEffect(() => {
+    if (!reaccion) return
+    setTextoActual(reaccion)
+    setVisible(true)
+    setAnimKey(k => k + 1)
+  }, [reaccion])
 
   return (
     <div
@@ -667,7 +696,7 @@ function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
             <X style={{ width: 14, height: 14 }} />
           </button>
           <p style={{ fontSize: 12, color: '#374151', lineHeight: 1.6, paddingRight: 16, margin: 0 }}>
-            {texto}
+            {textoActual}
           </p>
           <p style={{ fontSize: 11, color: '#003087', fontWeight: 700, margin: '6px 0 0 0' }}>byTI</p>
           {/* Flecha */}
