@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useEffect } from 'react'
 import Image from 'next/image'
 import { guardarRespuestas, verificarRespuesta } from '@/app/actions/respuestas'
 import { toast } from 'sonner'
@@ -8,7 +8,7 @@ import type { RespuestaDetalle } from '@/types'
 import {
   ChevronRight, ChevronLeft, CheckCircle2, AlertCircle, User, Hash,
   Layers, Clock, FileText, Target, Landmark, ShieldCheck, BarChart2,
-  Lightbulb, PieChart,
+  Lightbulb, PieChart, X,
 } from 'lucide-react'
 
 type Paso = 'bienvenida' | 'encuesta' | 'gracias'
@@ -129,6 +129,7 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f8f9fb] to-[#eef2f8]">
+      <ByTIBot seccionActual={seccionActual} totalSecciones={totalSecciones} />
       {/* Header */}
       <div className="rica-gradient text-white py-4 px-6">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
@@ -515,37 +516,17 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
               </div>
             </div>
 
-            <div className="flex items-end gap-3">
-              {/* byTI junto al botón */}
-              <div
-                className="shrink-0 w-28 h-36 pointer-events-none select-none"
-                style={{
-                  maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
-                  WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
-                  filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5)) drop-shadow(0 0 8px rgba(100,160,255,0.15))',
-                }}
-              >
-                <Image
-                  src="/byti.png"
-                  alt="byTI"
-                  width={112}
-                  height={144}
-                  className="object-contain w-full h-full"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isPending || !nombre.trim() || !codigo.trim()}
-                className="flex-1 py-4 px-4 bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 text-white rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg"
-              >
-                {isPending ? (
-                  <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Verificando...</>
-                ) : (
-                  <>Comenzar encuesta <ChevronRight className="w-5 h-5" /></>
-                )}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={isPending || !nombre.trim() || !codigo.trim()}
+              className="w-full py-4 px-4 bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 text-white rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg"
+            >
+              {isPending ? (
+                <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Verificando...</>
+              ) : (
+                <>Comenzar encuesta <ChevronRight className="w-5 h-5" /></>
+              )}
+            </button>
           </form>
         </div>
       </div>
@@ -553,6 +534,68 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       <p className="text-center text-blue-300/50 text-xs mt-12 z-10 relative pb-6">
         © 2026 Grupo Rica · República Dominicana
       </p>
+    </div>
+  )
+}
+
+const MENSAJES_BYTI = [
+  "¡Hola! Soy byTI 👋 Responde según tu experiencia real del día a día. No hay respuestas buenas ni malas.",
+  "¡Vas muy bien! Cada respuesta ayuda a entender cómo se gestionan los datos en toda la organización.",
+  "Cuando selecciones C o D, te pediremos una breve explicación. ¡Es la información más valiosa del diagnóstico!",
+  "¡Excelente avance! Un diagnóstico honesto genera mejoras reales. Sigue así.",
+  "¡Último tramo! Tus aportes son clave para que Grupo Rica siga creciendo en madurez de datos 🚀",
+]
+
+function ByTIBot({ seccionActual, totalSecciones }: { seccionActual: number; totalSecciones: number }) {
+  const [visible, setVisible] = useState(true)
+  const [animKey, setAnimKey] = useState(0)
+
+  const idx = Math.min(
+    Math.round((seccionActual / Math.max(totalSecciones - 1, 1)) * (MENSAJES_BYTI.length - 1)),
+    MENSAJES_BYTI.length - 1
+  )
+
+  useEffect(() => {
+    setVisible(true)
+    setAnimKey(k => k + 1)
+  }, [seccionActual])
+
+  return (
+    <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-2" style={{ maxWidth: 260 }}>
+      {/* Burbuja de mensaje */}
+      {visible && (
+        <div
+          key={animKey}
+          className="bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3 relative animate-in fade-in slide-in-from-bottom-3 duration-300"
+        >
+          <button
+            onClick={() => setVisible(false)}
+            className="absolute top-2 right-2 text-gray-300 hover:text-gray-500 transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+          <p className="text-xs text-gray-700 leading-relaxed pr-4">
+            {MENSAJES_BYTI[idx]}
+          </p>
+          {/* Flecha hacia byTI */}
+          <div className="absolute -bottom-[7px] right-9 w-3.5 h-3.5 bg-white border-b border-r border-gray-100 rotate-45" />
+        </div>
+      )}
+
+      {/* byTI — clic para mostrar/ocultar burbuja */}
+      <button
+        onClick={() => setVisible(v => !v)}
+        className="shrink-0 hover:scale-110 active:scale-95 transition-transform duration-150"
+        title="byTI"
+      >
+        <Image
+          src="/byti.png"
+          alt="byTI"
+          width={72}
+          height={90}
+          className="object-contain drop-shadow-lg"
+        />
+      </button>
     </div>
   )
 }
