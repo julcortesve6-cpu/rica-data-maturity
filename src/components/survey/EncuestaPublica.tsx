@@ -376,6 +376,14 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       {/* Contenedor de la tarjeta con robots posicionados */}
       <div className="relative w-full max-w-lg z-10">
 
+        {/* byTI con laptop — esquina inferior izquierda */}
+        <div className="absolute -bottom-16 -left-4 md:-left-12 w-36 md:w-44 z-20 pointer-events-none select-none"
+          style={{ filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5))' }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/byti-laptop.png" alt="byTI" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
+
         {/* SofIA — superpuesta esquina superior derecha, mirando hacia la encuesta */}
         <div
           className="absolute -top-24 -right-4 md:-right-12 w-44 md:w-60 z-20 pointer-events-none select-none"
