@@ -181,7 +181,7 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
           <div className="absolute top-0 right-36 w-44 h-full opacity-[0.06] pointer-events-none"
             style={{ backgroundImage: 'radial-gradient(circle, #003087 1.5px, transparent 1.5px)', backgroundSize: '18px 18px' }} />
 
-          <div className="flex items-start gap-4 pr-32">
+          <div className="flex items-start gap-4 pr-40">
             {/* Ícono de sección */}
             <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
               <SectionIcon className="w-7 h-7 text-[#003087]" />
@@ -200,10 +200,10 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
           </div>
 
           {/* SofIA decorativa */}
-          <div className="absolute right-0 top-0 h-full w-36 flex items-center justify-center pointer-events-none overflow-hidden">
+          <div className="absolute right-0 bottom-0 h-full w-40 flex items-end justify-center pointer-events-none overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/sofia.jpeg" alt="" aria-hidden
-              style={{ width: 130, objectFit: 'contain', mixBlendMode: 'multiply', marginTop: 8 }} />
+            <img src="/sofia-reading.png" alt="" aria-hidden
+              style={{ width: 150, objectFit: 'contain' }} />
           </div>
         </div>
 
