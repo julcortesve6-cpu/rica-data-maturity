@@ -448,7 +448,7 @@ const COMPONENTES = [
 ]
 
 function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, secciones, onNombre, onCodigo, onSubmit }: any) {
-  const numSecciones = secciones?.length ?? 4
+  const numSecciones = 4
 
   return (
     <div
