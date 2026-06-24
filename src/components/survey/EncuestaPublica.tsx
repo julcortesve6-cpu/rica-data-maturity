@@ -375,41 +375,25 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       {/* Contenedor de la tarjeta con robots posicionados */}
       <div className="relative w-full max-w-lg z-10">
 
-        {/* SofIA — superpuesta esquina superior derecha */}
+        {/* SofIA — superpuesta esquina superior derecha, mirando hacia la encuesta */}
         <div
-          className="absolute -top-20 -right-4 md:-right-10 w-36 md:w-48 z-20 pointer-events-none select-none"
+          className="absolute -top-24 -right-4 md:-right-12 w-44 md:w-60 z-20 pointer-events-none select-none"
           style={{
-            maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 28%, rgba(0,0,0,0.7) 48%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 28%, rgba(0,0,0,0.7) 48%, transparent 70%)',
+            maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 30%, rgba(0,0,0,0.75) 50%, transparent 72%)',
             filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5)) drop-shadow(0 0 8px rgba(100,160,255,0.15))',
+            transform: 'scaleX(-1)',
           }}
         >
           <Image
             src="/sofia.jpeg"
             alt="SofIA"
-            width={192}
-            height={192}
+            width={240}
+            height={240}
             className="object-contain w-full h-full"
           />
         </div>
 
-        {/* byTI — esquina inferior izquierda, fuera de la tarjeta */}
-        <div
-          className="absolute -bottom-28 -left-4 md:-left-12 w-32 md:w-40 z-20 pointer-events-none select-none"
-          style={{
-            maskImage: 'radial-gradient(ellipse 60% 72% at 50% 42%, black 26%, rgba(0,0,0,0.7) 46%, transparent 68%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 60% 72% at 50% 42%, black 26%, rgba(0,0,0,0.7) 46%, transparent 68%)',
-            filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.6)) drop-shadow(0 0 8px rgba(100,200,255,0.1))',
-          }}
-        >
-          <Image
-            src="/byti.jpeg"
-            alt="byTI"
-            width={160}
-            height={160}
-            className="object-contain w-full h-full"
-          />
-        </div>
 
         {/* Tarjeta blanca */}
         <div className="bg-white rounded-3xl shadow-2xl px-7 py-8">
@@ -531,17 +515,37 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isPending || !nombre.trim() || !codigo.trim()}
-              className="w-full py-4 px-4 bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 text-white rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg"
-            >
-              {isPending ? (
-                <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Verificando...</>
-              ) : (
-                <>Comenzar encuesta <ChevronRight className="w-5 h-5" /></>
-              )}
-            </button>
+            <div className="flex items-end gap-3">
+              {/* byTI junto al botón */}
+              <div
+                className="shrink-0 w-16 h-20 pointer-events-none select-none"
+                style={{
+                  maskImage: 'radial-gradient(ellipse 62% 75% at 50% 44%, black 32%, rgba(0,0,0,0.8) 52%, transparent 72%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 62% 75% at 50% 44%, black 32%, rgba(0,0,0,0.8) 52%, transparent 72%)',
+                  filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.2))',
+                }}
+              >
+                <Image
+                  src="/byti.jpeg"
+                  alt="byTI"
+                  width={64}
+                  height={80}
+                  className="object-contain w-full h-full"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isPending || !nombre.trim() || !codigo.trim()}
+                className="flex-1 py-4 px-4 bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 text-white rounded-2xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg"
+              >
+                {isPending ? (
+                  <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Verificando...</>
+                ) : (
+                  <>Comenzar encuesta <ChevronRight className="w-5 h-5" /></>
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>
