@@ -8,10 +8,12 @@ import type { RespuestaDetalle } from '@/types'
 import {
   ChevronRight, ChevronLeft, CheckCircle2, AlertCircle, User, Hash,
   Layers, Clock, FileText, Target, Landmark, ShieldCheck, BarChart2,
-  Lightbulb, PieChart, X,
+  Lightbulb, PieChart, X, Heart, Info, Database,
 } from 'lucide-react'
 
 type Paso = 'bienvenida' | 'encuesta' | 'gracias'
+
+const ICONOS_SECCION = [Landmark, ShieldCheck, BarChart2, Lightbulb, Database, FileText]
 
 interface Props {
   encuestaId: string
@@ -127,43 +129,83 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
     return <PantallaGracias nombre={nombre} />
   }
 
+  const SectionIcon = ICONOS_SECCION[seccionActual % ICONOS_SECCION.length]
+  const tiempoEstimado = Math.max(1, Math.ceil(seccion.preguntas.length * 0.5))
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8f9fb] to-[#eef2f8]">
+    <div className="min-h-screen bg-[#f0f4f8] pb-24">
       <ByTIBot seccionActual={seccionActual} totalSecciones={totalSecciones} />
-      {/* Header */}
-      <div className="rica-gradient text-white py-4 px-6">
-        <div className="max-w-2xl mx-auto flex items-center gap-3">
-          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden shrink-0">
-            <Image src="/logo-rica.jpeg" alt="Rica" width={32} height={32} className="object-contain" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-sm truncate">{titulo}</p>
-            <p className="text-blue-200 text-xs">{nombre} · {codigo}</p>
-          </div>
-          <span className="text-blue-200 text-xs shrink-0">
-            {seccionActual + 1} / {totalSecciones}
-          </span>
-        </div>
-        <div className="max-w-2xl mx-auto mt-3">
-          <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div
-              className="h-1.5 bg-white rounded-full transition-all duration-500"
-              style={{ width: `${progreso}%` }}
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Sección actual */}
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900">{seccion.titulo}</h2>
-          {seccion.descripcion && (
-            <p className="text-gray-500 text-sm mt-1 italic">{seccion.descripcion}</p>
-          )}
+      {/* ── Header sticky ── */}
+      <header className="bg-white border-b-4 border-[#003087] sticky top-0 z-40 shadow-sm">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
+          {/* Logo Rica */}
+          <div className="w-10 h-10 bg-[#003087] rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+            <Image src="/logo-rica.jpeg" alt="Rica" width={40} height={40} className="object-contain" />
+          </div>
+          <div className="w-px h-7 bg-gray-200 shrink-0 hidden sm:block" />
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:block shrink-0">Grupo Rica</span>
+
+          {/* Título + usuario */}
+          <div className="flex-1 min-w-0 ml-1">
+            <p className="font-bold text-sm text-gray-900 truncate leading-tight">{titulo}</p>
+            <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+              <User className="w-3 h-3" />{nombre} · {codigo}
+            </p>
+          </div>
+
+          {/* Paso + barra */}
+          <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
+            <span className="text-xs font-semibold text-gray-700">Paso {seccionActual + 1} de {totalSecciones}</span>
+            <div className="w-28 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[#003087] rounded-full transition-all duration-500" style={{ width: `${progreso}%` }} />
+            </div>
+          </div>
+
+          {/* Tiempo estimado */}
+          <div className="hidden sm:flex items-center gap-1.5 bg-[#003087] text-white px-3 py-2 rounded-xl shrink-0 text-xs font-semibold">
+            <Clock className="w-3.5 h-3.5" />
+            ~{tiempoEstimado} min en esta sección
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-3xl mx-auto px-4 py-6">
+
+        {/* ── Tarjeta de sección ── */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm mb-6 p-6 relative overflow-hidden">
+          {/* Cuadrícula decorativa */}
+          <div className="absolute top-0 right-36 w-44 h-full opacity-[0.06] pointer-events-none"
+            style={{ backgroundImage: 'radial-gradient(circle, #003087 1.5px, transparent 1.5px)', backgroundSize: '18px 18px' }} />
+
+          <div className="flex items-start gap-4 pr-32">
+            {/* Ícono de sección */}
+            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+              <SectionIcon className="w-7 h-7 text-[#003087]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className="text-xs font-bold text-[#003087] uppercase tracking-widest">Componente</span>
+              <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 mt-0.5 mb-2 leading-tight">{seccion.titulo}</h2>
+              {seccion.descripcion && (
+                <p className="text-sm text-gray-500 leading-relaxed mb-3">{seccion.descripcion}</p>
+              )}
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Heart className="w-3.5 h-3.5 text-[#E31837] shrink-0" />
+                Tu respuesta nos ayuda a identificar oportunidades de mejora.
+              </div>
+            </div>
+          </div>
+
+          {/* SofIA decorativa */}
+          <div className="absolute right-0 top-0 h-full w-36 flex items-center justify-center pointer-events-none overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/sofia.jpeg" alt="" aria-hidden
+              style={{ width: 130, objectFit: 'contain', mixBlendMode: 'multiply', marginTop: 8 }} />
+          </div>
         </div>
 
-        <div className="space-y-6">
+        {/* ── Preguntas ── */}
+        <div className="space-y-4">
           {seccion.preguntas.map((pregunta: any, idx: number) => (
             <PreguntaItem
               key={pregunta.id}
@@ -176,29 +218,35 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
             />
           ))}
         </div>
+      </div>
 
-        {/* Navegación */}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+      {/* ── Footer de navegación ── */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-30 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <button
             onClick={() => { setSeccionActual(Math.max(0, seccionActual - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             disabled={seccionActual === 0}
-            className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all font-medium"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all font-semibold"
           >
             <ChevronLeft className="w-4 h-4" />
             Anterior
           </button>
 
+          <span className="text-xs text-gray-400 hidden sm:block">
+            {seccionActual + 1} / {totalSecciones} secciones
+          </span>
+
           <button
             onClick={siguienteSeccion}
             disabled={isPending}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm text-white bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 rounded-xl transition-all font-semibold"
+            className="flex items-center gap-2 px-6 py-2.5 text-sm text-white bg-[#003087] hover:bg-[#001f5b] disabled:opacity-60 rounded-xl transition-all font-bold shadow-md"
           >
             {isPending ? (
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : seccionActual === totalSecciones - 1 ? (
               <>Enviar encuesta <CheckCircle2 className="w-4 h-4" /></>
             ) : (
-              <>Siguiente <ChevronRight className="w-4 h-4" /></>
+              <>Guardar y continuar <ChevronRight className="w-4 h-4" /></>
             )}
           </button>
         </div>
@@ -219,108 +267,126 @@ function PreguntaItem({ pregunta, index, respuesta, error, onChange, onJustifica
     (o: any) => o.valor === respuesta?.valor_seleccionado
   )
   const pideJustificacion = opcionSeleccionada?.pide_justificacion
+  const esEscala = pregunta.tipo === 'escala_ad'
 
   return (
-    <div className={`bg-white rounded-2xl border p-6 transition-all ${error ? 'border-red-200' : 'border-gray-100'}`}>
-      <div className="mb-4">
-        <div className="flex items-start gap-2">
-          <span className="text-xs font-bold text-gray-400 mt-0.5 shrink-0">{index + 1}.</span>
-          <div>
-            <p className="text-sm font-semibold text-gray-900 leading-snug">
-              {pregunta.texto}
-              {pregunta.requerida && <span className="text-[#E31837] ml-1">*</span>}
-            </p>
+    <div className={`bg-white rounded-2xl shadow-sm transition-all border-2 ${error ? 'border-red-200' : 'border-transparent'}`}>
+      {/* Cabecera de la pregunta */}
+      <div className="p-5 pb-4">
+        <div className="flex items-start gap-3">
+          {/* Número */}
+          <span className="w-8 h-8 rounded-full bg-[#003087] text-white text-sm font-bold flex items-center justify-center shrink-0 mt-0.5">
+            {index + 1}
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start gap-2">
+              <p className="text-base font-bold text-gray-900 leading-snug flex-1">
+                {pregunta.texto}
+                {pregunta.requerida && <span className="text-[#E31837] ml-1">*</span>}
+              </p>
+              <Info className="w-4 h-4 text-blue-300 shrink-0 mt-0.5" />
+            </div>
             {pregunta.ayuda && (
-              <p className="text-xs text-gray-400 mt-1 leading-relaxed italic">{pregunta.ayuda}</p>
+              <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">{pregunta.ayuda}</p>
             )}
           </div>
         </div>
       </div>
 
-      {pregunta.tipo === 'texto_libre' ? (
-        <textarea
-          value={respuesta?.valor_seleccionado ?? ''}
-          onChange={e => onChange(pregunta.id, e.target.value)}
-          rows={3}
-          placeholder="Escriba su respuesta aquí..."
-          className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003087]/20 focus:border-[#003087] resize-none transition-all"
-        />
-      ) : pregunta.tipo === 'opcion_multiple' ? (
-        <div className="relative">
-          <select
+      {/* Opciones */}
+      <div className="px-5 pb-5">
+        {pregunta.tipo === 'texto_libre' ? (
+          <textarea
             value={respuesta?.valor_seleccionado ?? ''}
             onChange={e => onChange(pregunta.id, e.target.value)}
-            className={`w-full px-4 py-3 pr-10 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#003087]/20 focus:border-[#003087] transition-all bg-white appearance-none cursor-pointer ${
-              respuesta?.valor_seleccionado ? 'border-[#003087] text-gray-900' : 'border-gray-200 text-gray-400'
-            }`}
-          >
-            <option value="">Selecciona una opción...</option>
-            {(pregunta.opciones_json ?? []).map((op: any) => (
-              <option key={op.valor} value={op.valor}>{op.etiqueta}</option>
-            ))}
-          </select>
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </span>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {(pregunta.opciones_json ?? []).map((op: any) => {
-            const isSelected = respuesta?.valor_seleccionado === op.valor
-            const esEscala = pregunta.tipo === 'escala_ad'
-            return (
-              <button
-                key={op.valor}
-                onClick={() => onChange(pregunta.id, op.valor)}
-                className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl border text-sm transition-all ${
-                  isSelected
-                    ? 'border-[#003087] bg-[#003087]/5 text-[#003087] font-medium'
-                    : 'border-gray-100 bg-gray-50 text-gray-700 hover:border-gray-200 hover:bg-gray-100'
-                }`}
-              >
-                {esEscala ? (
-                  <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 text-xs font-bold transition-all ${
-                    isSelected ? 'border-[#003087] bg-[#003087] text-white' : 'border-gray-300 text-gray-400'
-                  }`}>
-                    {op.valor}
-                  </span>
-                ) : (
-                  <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    isSelected ? 'border-[#003087]' : 'border-gray-300'
-                  }`}>
-                    {isSelected && <span className="w-2.5 h-2.5 rounded-full bg-[#003087]" />}
-                  </span>
-                )}
-                {op.etiqueta}
-              </button>
-            )
-          })}
-        </div>
-      )}
-
-      {pideJustificacion && (
-        <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-          <p className="text-xs font-semibold text-amber-700 mb-2">
-            Por favor, explica brevemente: ¿por qué seleccionaste esta opción? *
-          </p>
-          <textarea
-            value={respuesta?.texto_justificacion ?? ''}
-            onChange={e => onJustificacion(pregunta.id, e.target.value)}
-            rows={2}
-            placeholder="Escribe tu justificación..."
-            className="w-full px-3 py-2 text-sm bg-white border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 resize-none transition-all"
+            rows={3}
+            placeholder="Escriba su respuesta aquí..."
+            className="w-full px-4 py-3 text-sm border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003087]/20 focus:border-[#003087] resize-none transition-all"
           />
-        </div>
-      )}
+        ) : pregunta.tipo === 'opcion_multiple' ? (
+          <div className="relative">
+            <select
+              value={respuesta?.valor_seleccionado ?? ''}
+              onChange={e => onChange(pregunta.id, e.target.value)}
+              className={`w-full px-4 py-3 pr-10 border-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#003087]/20 focus:border-[#003087] transition-all bg-white appearance-none cursor-pointer ${
+                respuesta?.valor_seleccionado ? 'border-[#003087] text-gray-900' : 'border-gray-200 text-gray-400'
+              }`}
+            >
+              <option value="">Selecciona una opción...</option>
+              {(pregunta.opciones_json ?? []).map((op: any) => (
+                <option key={op.valor} value={op.valor}>{op.etiqueta}</option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {(pregunta.opciones_json ?? []).map((op: any) => {
+              const isSelected = respuesta?.valor_seleccionado === op.valor
+              return (
+                <button
+                  key={op.valor}
+                  onClick={() => onChange(pregunta.id, op.valor)}
+                  className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-sm transition-all ${
+                    isSelected
+                      ? 'border-[#003087] bg-blue-50'
+                      : 'border-gray-150 bg-white hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <span className={`w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 font-bold text-sm transition-all ${
+                    isSelected
+                      ? 'border-[#003087] bg-[#003087] text-white'
+                      : 'border-gray-300 text-gray-400 bg-white'
+                  }`}>
+                    {esEscala ? op.valor : (
+                      <span className={`w-3 h-3 rounded-full transition-all ${isSelected ? 'bg-white' : 'bg-transparent border border-gray-300'}`} />
+                    )}
+                  </span>
+                  <span className={`flex-1 ${isSelected ? 'text-[#003087] font-semibold' : 'text-gray-700'}`}>
+                    {op.etiqueta}
+                  </span>
+                  {isSelected && <CheckCircle2 className="w-5 h-5 text-[#003087] shrink-0" />}
+                </button>
+              )
+            })}
 
-      {error && (
-        <div className="mt-3 flex items-center gap-1.5 text-xs text-red-500">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          {error}
-        </div>
-      )}
+            {/* Nota C/D */}
+            {esEscala && (
+              <div className="flex items-start gap-1.5 mt-3 text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+                <Info className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" />
+                Si seleccionas C o D, es posible que te pidamos un breve comentario para entender mejor tu respuesta.
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Justificación condicional */}
+        {pideJustificacion && (
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+            <p className="text-xs font-semibold text-amber-700 mb-2">
+              Por favor, explica brevemente: ¿por qué seleccionaste esta opción? *
+            </p>
+            <textarea
+              value={respuesta?.texto_justificacion ?? ''}
+              onChange={e => onJustificacion(pregunta.id, e.target.value)}
+              rows={2}
+              placeholder="Escribe tu justificación..."
+              className="w-full px-3 py-2 text-sm bg-white border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400 resize-none transition-all"
+            />
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-3 flex items-center gap-1.5 text-xs text-red-500">
+            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            {error}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -603,6 +669,7 @@ function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
           <p style={{ fontSize: 12, color: '#374151', lineHeight: 1.6, paddingRight: 16, margin: 0 }}>
             {texto}
           </p>
+          <p style={{ fontSize: 11, color: '#003087', fontWeight: 700, margin: '6px 0 0 0' }}>byTI</p>
           {/* Flecha */}
           <div style={{
             position: 'absolute',
