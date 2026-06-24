@@ -623,14 +623,36 @@ const MENSAJES_ENCUESTA = [
 ]
 
 const REACCIONES_RESPUESTA = [
-  "¡Perfecto! Así se construye un diagnóstico real 👏",
-  "¡Genial! Tu honestidad hace la diferencia 🌟",
-  "¡Muy bien! Cada respuesta suma al análisis 📊",
-  "¡Excelente elección! Seguimos avanzando 🚀",
-  "¡Gracias! Tu perspectiva es muy valiosa 💡",
-  "¡Eso es! Estás ayudando a mejorar Grupo Rica 💪",
-  "¡Buena respuesta! Vas a un ritmo increíble ⚡",
-  "¡Listo! Un paso más hacia el diagnóstico completo ✅",
+  "¡Dato capturado! Los diagnósticos honestos valen más que mil dashboards bonitos 📊",
+  "¡Registrado! Cada respuesta es un KPI que va directo al tablero de Grupo Rica ⚡",
+  "¡Anotado! La diferencia entre datos e información eres exactamente tú: tu perspectiva 🧠",
+  "¡Capturado! Incluso los pipelines más avanzados empezaron con una primera respuesta 🚀",
+  "¡Guardado! Un dashboard sin datos honestos no es un dashboard, es decoración 🎨",
+  "¡Sumado al análisis! La madurez de datos es un viaje y acabas de dar un paso más 🗺️",
+  "¡Recibido! Si los datos mienten, el negocio tropieza. Tú nos diste la verdad 🙏",
+  "¡Al data lake! El que importa... el del diagnóstico real, no el del servidor olvidado 🌊",
+  "¡Perfecto! Aquí no hay respuestas malas, solo oportunidades de mejora con nombre y apellido 💡",
+  "¡Registrado! La calidad de un diagnóstico es proporcional a la honestidad de sus respuestas 📏",
+  "¡Listo! Más valioso que un report en tiempo real: un diagnóstico que diga la verdad ✨",
+  "¡Guardado! Si el gobierno de datos fuera tan sencillo como responder esto... 😄",
+  "¡Avanzamos! Cada sección que completas es un nivel de madurez que se revela 🎯",
+  "¡Anotado! Los datos sin contexto son ruido. Tus respuestas son música 🎵",
+  "¡Capturado! Algún día un dashboard hermoso mostrará el impacto de este momento 📈",
+  "¡Sumado! No existe IA que mejore sin datos de calidad... y acabas de aportar los tuyos 🤖",
+  "¡Dato recibido! La madurez no se decreta, se diagnostica. Así como tú lo estás haciendo 🔬",
+  "¡Registrado! Cuando este diagnóstico cierre, Grupo Rica tendrá su mapa del tesoro 🗺️✨",
+  "¡Listo! Sin filtros, sin maquillaje, con datos reales. Así se hace 💯",
+  "¡Guardado! Los mejores insights vienen de la realidad, no del wishful thinking 🔍",
+  "¡Capturado! Cada respuesta cierra una brecha... aunque sea chiquita. Las brechas chiquitas importan 🔧",
+  "¡Anotado! En Grupo Rica los datos se tratan con cariño... como acabas de hacer tú 💙",
+  "¡Registrado! Esto es gobernanza en acción: registrar, documentar y nunca olvidar 📋",
+  "¡Sumado! Los KPIs empiezan aquí: con alguien que se tomó el tiempo de responder con honestidad ⏱️",
+  "¡Capturado! Spoiler: el próximo módulo tiene preguntas igual de interesantes 😉",
+  "¡Al repositorio! Tu respuesta pasó todos los controles de calidad... incluso los manuales 🏅",
+  "¡Avanzamos! ¿Ves? La analítica no duele cuando tú eres el dato 😊",
+  "¡Dato anotado! Cada respuesta es una semilla en el jardín de la cultura de datos 🌱",
+  "¡Guardado! Medir es poder. Y tú acabas de sumarle poder al diagnóstico de Rica 💪",
+  "¡Perfecto! Cuando todos respondan así, el análisis de IA va a tener material de calidad 🏆",
 ]
 
 function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1, reaccion }: {
@@ -656,7 +678,7 @@ function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1, reaccion }: {
 
   useEffect(() => {
     if (!reaccion) return
-    setTextoActual(reaccion)
+    setTextoActual(reaccion.replace(/_\d+$/, ''))
     setVisible(true)
     setAnimKey(k => k + 1)
   }, [reaccion])
