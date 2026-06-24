@@ -161,35 +161,54 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
       <ByTIBot seccionActual={seccionActual} totalSecciones={totalSecciones} reaccion={reaccionBot} />
 
       {/* ── Header sticky ── */}
-      <header className="bg-white border-b-4 border-[#003087] sticky top-0 z-40 shadow-sm">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
-          {/* Logo Rica */}
-          <div className="w-10 h-10 bg-[#003087] rounded-xl flex items-center justify-center overflow-hidden shrink-0">
-            <Image src="/logo-rica.jpeg" alt="Rica" width={40} height={40} className="object-contain" />
-          </div>
-          <div className="w-px h-7 bg-gray-200 shrink-0 hidden sm:block" />
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:block shrink-0">Grupo Rica</span>
+      <header className="bg-white sticky top-0 z-40 shadow-md">
 
-          {/* Título + usuario */}
-          <div className="flex-1 min-w-0 ml-1">
-            <p className="font-bold text-sm text-gray-900 truncate leading-tight">{titulo}</p>
-            <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-              <User className="w-3 h-3" />{nombre} · {codigo}
-            </p>
-          </div>
-
-          {/* Paso + barra */}
-          <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
-            <span className="text-xs font-semibold text-gray-700">Paso {seccionActual + 1} de {totalSecciones}</span>
-            <div className="w-28 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div className="h-1.5 bg-[#003087] rounded-full transition-all duration-500" style={{ width: `${progreso}%` }} />
+        {/* Fila 1 — branding */}
+        <div className="border-b border-gray-100">
+          <div className="max-w-3xl mx-auto px-4 py-2 flex items-center gap-3">
+            <div className="w-7 h-7 rounded-lg overflow-hidden shrink-0 border border-gray-100">
+              <Image src="/logo-rica.jpeg" alt="Rica" width={28} height={28} className="object-contain" />
             </div>
+            <span className="text-[11px] font-extrabold text-[#003087] uppercase tracking-[0.15em] shrink-0">Grupo Rica</span>
+            <div className="w-px h-3.5 bg-gray-200 shrink-0" />
+            <p className="text-[11px] text-gray-400 truncate flex-1">{titulo}</p>
           </div>
+        </div>
 
-          {/* Tiempo estimado */}
-          <div className="hidden sm:flex items-center gap-1.5 bg-[#003087] text-white px-3 py-2 rounded-xl shrink-0 text-xs font-semibold">
-            <Clock className="w-3.5 h-3.5" />
-            ~{tiempoEstimado} min en esta sección
+        {/* Fila 2 — usuario + progreso */}
+        <div className="border-b-[3px] border-[#003087]">
+          <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center gap-3">
+
+            {/* Avatar + nombre · código */}
+            <div className="flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full pl-1 pr-3 py-1 shrink-0">
+              <div className="w-6 h-6 rounded-full bg-[#003087] flex items-center justify-center text-white text-[10px] font-extrabold shrink-0">
+                {nombre.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-xs font-semibold text-gray-800">{nombre}</span>
+              <span className="text-gray-300 text-xs">·</span>
+              <span className="text-xs text-gray-500 font-mono">{codigo}</span>
+            </div>
+
+            {/* Barra de progreso */}
+            <div className="flex-1 flex flex-col gap-1 min-w-0">
+              <div className="flex justify-between items-center">
+                <span className="text-[11px] font-bold text-[#003087]">Paso {seccionActual + 1} de {totalSecciones}</span>
+                <span className="text-[10px] text-gray-400 font-medium">{progreso}% completado</span>
+              </div>
+              <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${progreso}%`, background: 'linear-gradient(90deg, #003087, #1a5cb8)' }}
+                />
+              </div>
+            </div>
+
+            {/* Tiempo */}
+            <div className="hidden sm:flex items-center gap-1.5 bg-[#003087] text-white px-3 py-1.5 rounded-xl shrink-0 text-[11px] font-semibold">
+              <Clock className="w-3 h-3" />
+              ~{tiempoEstimado} min
+            </div>
+
           </div>
         </div>
       </header>
