@@ -629,7 +629,7 @@ function ByTIBot({ mensaje, seccionActual = 0, totalSecciones = 1 }: {
         <img
           src="/byti-laptop.png"
           alt="byTI"
-          style={{ width: 88, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
+          style={{ width: 120, height: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px rgba(0,48,135,0.25))' }}
         />
       </button>
 
