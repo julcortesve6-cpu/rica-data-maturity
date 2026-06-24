@@ -200,10 +200,10 @@ export default function EncuestaPublica({ encuestaId, titulo, descripcion, secci
           </div>
 
           {/* SofIA decorativa */}
-          <div className="absolute right-0 bottom-0 h-full w-40 flex items-end justify-center pointer-events-none overflow-hidden">
+          <div className="absolute right-0 bottom-0 h-full w-40 flex items-end justify-end pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/sofia-reading.png" alt="" aria-hidden
-              style={{ width: 150, objectFit: 'contain' }} />
+              style={{ height: '100%', width: 'auto', maxWidth: 160, objectFit: 'contain', objectPosition: 'bottom' }} />
           </div>
         </div>
 
