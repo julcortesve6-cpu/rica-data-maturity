@@ -336,7 +336,7 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
 
   return (
     <div
-      className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center px-4 py-16"
+      className="min-h-screen relative overflow-x-hidden flex flex-col items-center justify-center px-4 pt-16 pb-36"
       style={{ background: 'linear-gradient(135deg, #001440 0%, #002070 60%, #001a4d 100%)' }}
     >
       {/* Cuadrícula de puntos decorativa — superior derecha */}
@@ -376,26 +376,38 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
       <div className="relative w-full max-w-lg z-10">
 
         {/* SofIA — superpuesta esquina superior derecha */}
-        <div className="absolute -top-14 -right-2 md:-right-8 w-28 md:w-36 z-20 pointer-events-none select-none">
+        <div
+          className="absolute -top-20 -right-4 md:-right-10 w-36 md:w-48 z-20 pointer-events-none select-none"
+          style={{
+            maskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 28%, rgba(0,0,0,0.7) 48%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 58% 68% at 50% 46%, black 28%, rgba(0,0,0,0.7) 48%, transparent 70%)',
+            filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.5)) drop-shadow(0 0 8px rgba(100,160,255,0.15))',
+          }}
+        >
           <Image
             src="/sofia.jpeg"
             alt="SofIA"
-            width={144}
-            height={144}
-            className="object-contain w-full h-full drop-shadow-2xl"
-            style={{ mixBlendMode: 'multiply' }}
+            width={192}
+            height={192}
+            className="object-contain w-full h-full"
           />
         </div>
 
         {/* byTI — esquina inferior izquierda, fuera de la tarjeta */}
-        <div className="absolute -bottom-20 -left-3 md:-left-10 w-24 md:w-32 z-20 pointer-events-none select-none">
+        <div
+          className="absolute -bottom-28 -left-4 md:-left-12 w-32 md:w-40 z-20 pointer-events-none select-none"
+          style={{
+            maskImage: 'radial-gradient(ellipse 60% 72% at 50% 42%, black 26%, rgba(0,0,0,0.7) 46%, transparent 68%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 60% 72% at 50% 42%, black 26%, rgba(0,0,0,0.7) 46%, transparent 68%)',
+            filter: 'drop-shadow(0 8px 24px rgba(0,20,80,0.6)) drop-shadow(0 0 8px rgba(100,200,255,0.1))',
+          }}
+        >
           <Image
             src="/byti.jpeg"
             alt="byTI"
-            width={128}
-            height={128}
-            className="object-contain w-full h-full drop-shadow-2xl"
-            style={{ mixBlendMode: 'multiply' }}
+            width={160}
+            height={160}
+            className="object-contain w-full h-full"
           />
         </div>
 
