@@ -494,7 +494,7 @@ function PantallaBienvenida({ titulo, descripcion, nombre, codigo, isPending, se
 
         {/* SofIA — superpuesta esquina superior derecha */}
         <div
-          className="absolute -top-28 -right-4 md:-right-10 w-44 md:w-56 z-20 pointer-events-none select-none"
+          className="absolute -top-36 -right-4 md:-right-10 w-36 md:w-44 z-20 pointer-events-none select-none"
           style={{ filter: 'drop-shadow(0 8px 28px rgba(0,20,80,0.35))' }}
         >
           <Image
